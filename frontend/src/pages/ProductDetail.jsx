@@ -46,7 +46,7 @@ const ProductDetails = () => {
     setProduct(res.data.product);
     setRating(0);
     setComment('');
-    setTimeout(() => navigate('/'), 2000);
+    setTimeout(() => navigate('/', { state: { refresh: true } }), 2000);
   } catch (err) {
     console.error('Error adding review:', err.response?.data || err.message);
     toast.error(err.response?.data?.message || 'Error adding review....');
