@@ -28,7 +28,7 @@ const ProductDetails = () => {
   e.preventDefault();
 
   if (!token) {
-    alert('You must be logged in to add a review.');
+    toast.error('You must be logged in to add a review');
     return;
   }
 
@@ -42,11 +42,11 @@ const ProductDetails = () => {
         Authorization: `Bearer ${token}`
       }
     });
-     toast.success('Review Added Successfully....');
     setProduct(res.data.product);
     setRating(0);
     setComment('');
-    setTimeout(() => navigate('/', { state: { refresh: true } }), 2000);
+         toast.success('Review Added Successfully....');
+navigate('/', { state: { refresh: true } });
   } catch (err) {
     console.error('Error adding review:', err.response?.data || err.message);
     toast.error(err.response?.data?.message || 'Error adding review....');
