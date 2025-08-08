@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Nav, Container, Navbar } from 'react-bootstrap';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -10,11 +12,12 @@ const Header = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
-  }, [location]); 
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    toast.success("User Logout Successfully...")
     navigate("/login");
   };
 
@@ -52,6 +55,8 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <ToastContainer position="top-center" autoClose={2000} />
+
     </Navbar>
   );
 };
