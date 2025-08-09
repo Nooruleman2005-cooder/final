@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Footer = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,6 +17,7 @@ const Footer = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+        toast.error("User Logout Successfully...")
     navigate("/login");
   };
 
@@ -61,6 +64,7 @@ const Footer = () => {
       <div className="text-center p-3 bg-black">
         © {new Date().getFullYear()} Hijab Studio. All rights reserved.
       </div>
+            <ToastContainer position="top-center" autoClose={2000} />
     </footer>
   );
 };

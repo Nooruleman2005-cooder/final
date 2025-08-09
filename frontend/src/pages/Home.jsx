@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { productAxios } from '../utils/axios';
-import { Link, useLocation } from 'react-router-dom';  // <-- useLocation import kiya
+import { Link, useLocation } from 'react-router-dom';  
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const location = useLocation();  // <-- location hook use kiya
+  const location = useLocation();  
 
-  // Products fetch karne wali function
   const fetchProducts = () => {
     productAxios.get('/')
       .then(res => setProducts(res.data))
@@ -16,22 +15,20 @@ const Home = () => {
       });
   };
 
-  // Component mount pe pehli dafa products fetch karo
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // Jab bhi location.state.refresh true ho, products ko dobara fetch karo
   useEffect(() => {
     if (location.state?.refresh) {
       fetchProducts();
-      // Refresh state clear kar do taki baar baar refresh na ho
+  
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 mt-5">
       <div className="text-center mb-4">
         <h1 className="text-primary fw-bold">Hijab Website</h1>
         <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

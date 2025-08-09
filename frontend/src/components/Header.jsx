@@ -17,13 +17,13 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    toast.success("User Logout Successfully...")
+    toast.error("User Logout Successfully...")
     navigate("/login");
   };
 
   return (
-    <Navbar expand="lg" className="bg-primary">
-      <Container fluid>
+    <Navbar expand="lg" className="bg-primary" fixed='top' >
+      <Container fluid >
         <Navbar.Brand as={Link} to="/" className="text-white">
           Hijab Studio
         </Navbar.Brand>
@@ -56,7 +56,6 @@ const Header = () => {
         </Navbar.Collapse>
       </Container>
       <ToastContainer position="top-center" autoClose={2000} />
-
     </Navbar>
   );
 };

@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; 
+import { useAuth } from '../context/AuthContext';
 import { productAxios } from '../utils/axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 
 const ProductDetails = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
-  const { token } = useAuth();   
+  const { token } = useAuth();
   const [product, setProduct] = useState(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const [loading, setLoading] = useState(false); // loading state for review submit
+  const [loading, setLoading] = useState(false);
 
-  // Fetch product details on mount or when id changes
   useEffect(() => {
     productAxios.get(`/${id}`)
       .then(res => setProduct(res.data))
@@ -24,50 +21,49 @@ const ProductDetails = () => {
   }, [id]);
 
   // Submit review handler
- const submitReview = async (e) => {
-  e.preventDefault();
+  const submitReview = async (e) => {
+    e.preventDefault();
 
-  if (!token) {
-    toast.error('You must be logged in to add a review');
-    return;
-  }
+    if (!token) {
+      toast.error('You must be logged in to add a review');
+      return;
+    }
 
-  setLoading(true); // start loading
+    setLoading(true);
 
-  console.log('Sending token:', token);
+    console.log('Sending token:', token);
 
-  try {
-    const res = await productAxios.post(`/${id}/reviews`, { rating, comment }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    setProduct(res.data.product);
-    setRating(0);
-    setComment('');
-         toast.success('Review Added Successfully....');
-navigate('/', { state: { refresh: true } });
-  } catch (err) {
-    console.error('Error adding review:', err.response?.data || err.message);
-    toast.error(err.response?.data?.message || 'Error adding review....');
-  } finally {
-    setLoading(false); 
-  }
-};
+    try {
+      const res = await productAxios.post(`/${id}/reviews`, { rating, comment }, {
+        headers: {
+          Authorization: `Bearer ${token}`  // <-- backticks and ${} interpolation
+        }
+      });
+      setProduct(res.data);
+      setRating(0);
+      setComment('');
+      toast.success('Review Added Successfully....');
+    } catch (err) {
+      console.error('Error adding review:', err.response?.data || err.message);
+      toast.error(err.response?.data?.message || 'Error adding review....');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!product) return <p className="text-center mt-5">Loading...</p>;
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
           <h3 className="mb-3">Reviews</h3>
 
-          {product.reviews.length === 0 && (
+          {(product.reviews?.length ?? 0) === 0 && (
             <p className="text-muted">No reviews yet.</p>
           )}
 
-          {product.reviews.map(review => (
+          {product.reviews?.map(review => (
             <div key={review._id} className="mb-3 border rounded p-3">
               <strong>{review.name}</strong> - Rating: {review.rating} <br />
               <small className="text-muted">{review.comment}</small>
@@ -115,6 +111,7 @@ navigate('/', { state: { refresh: true } });
           </form>
         </div>
       </div>
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };
