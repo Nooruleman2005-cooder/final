@@ -32,6 +32,10 @@ const AuthForm = () => {
                 localStorage.setItem('token', data.jwtToken);
             }
 
+            if (data.id){
+                  localStorage.setItem('userId', data.id.toString());
+            }
+
             setFormData({ name: '', email: '', password: '' });
 
             toast.success(isLogin ? 'Login successful!' : 'Signup successful!');

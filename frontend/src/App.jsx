@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AddProduct from './pages/AddProduct';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetail';
-
+import ReviewsPage from './pages/ReviewPage';
 
 function App() {
   return (
@@ -25,8 +25,8 @@ function App() {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/product/:id" element={<ProtectedRoute><ProductDetails /></ProtectedRoute>} />
         <Route path="/product" element={<ProtectedRoute> <AddProduct /> </ProtectedRoute>} />
-      </Routes>
-
+        <Route path="/product/:id/reviews"element={<ProtectedRoute> <ReviewsPage /></ProtectedRoute>}/>
+        </Routes>
       <Footer />
     </Router>
   );

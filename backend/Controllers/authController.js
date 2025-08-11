@@ -11,7 +11,7 @@ export const signUp = async (req, res) => {
         const user = await userModel.findOne({ email });
         if (user) {
             return res.status(400).json({
-                message: "Uswer Already Exsist....",
+                message: "User Already Exsist....",
                 success: false
             })
         }
@@ -71,6 +71,7 @@ export const login = async (req, res) => {
             message: "User Login Successfully....",
             name: user.name,
             email,
+            id: user._id,
             success: true,
             jwtToken
         })

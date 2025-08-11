@@ -16,6 +16,8 @@ import authRouter from './Routes/authRouter.js';
 
 import productRouter from './Routes/productRouter.js';
 
+import reviewRouter from './Routes/reviewRouter.js';
+
 app.get('/' , (req , res) =>{
     res.send('Authentication');
 })
@@ -31,6 +33,9 @@ app.use(cors());
 app.use('/api/auth' , authRouter);
 
 app.use('/api/products' , productRouter);
+
+app.use('/api/reviews' , reviewRouter);
+
 
 app.listen(port , ()=>{
     console.log(`App is strting.... ${port}`)
